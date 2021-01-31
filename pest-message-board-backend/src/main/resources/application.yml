@@ -1,1 +1,4 @@
-
+spring:
+  datasource:
+    url: jdbc:mysql://root:123456798@localhost:3306/messageboard?serverTimezone=UTC&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
