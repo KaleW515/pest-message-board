@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -93,7 +93,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/kaptcha")
+    @GetMapping("/captcha")
     public void render() {
         kaptcha.render();
     }
