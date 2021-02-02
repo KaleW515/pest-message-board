@@ -21,6 +21,11 @@ public class UserDao {
         return userMapper.selectByMap(map);
     }
 
+    // 根据用户id查询用户
+    public User getUserById (Integer userId) {
+        return userMapper.selectById(userId);
+    }
+
     // 插入用户
     public Integer insertUser (User user) {
         return userMapper.insert(user);
@@ -29,5 +34,10 @@ public class UserDao {
     // 获取用户密码
     public String getPasswordByUsername (String username) {
         return getUserByUsername(username).get(0).getPassword();
+    }
+
+    // 更新用户密码
+    public void updatePassword (User user) {
+        userMapper.updateById(user);
     }
 }
