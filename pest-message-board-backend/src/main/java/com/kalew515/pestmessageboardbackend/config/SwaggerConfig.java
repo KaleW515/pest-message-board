@@ -14,6 +14,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
     @Bean
     public Docket createRestApi () {
-        return new Docket(DocumentationType.SWAGGER_2).pathMapping("/").select().apis(RequestHandlerSelectors.basePackage("com.kalew515.pestmessageboardbackend.controller")).paths(PathSelectors.any()).build().apiInfo(new ApiInfoBuilder().title("pest-message-board").version("1.0.0").build());
+        return new Docket(DocumentationType.SWAGGER_2).pathMapping("/")
+                                                      .select()
+                                                      .apis(RequestHandlerSelectors.basePackage("com.kalew515.pestmessageboardbackend.controller"))
+                                                      .paths(PathSelectors.any())
+                                                      .build()
+                                                      .apiInfo(new ApiInfoBuilder().title("pest-message-board")
+                                                                                   .version("1.0.0")
+                                                                                   .build());
     }
 }

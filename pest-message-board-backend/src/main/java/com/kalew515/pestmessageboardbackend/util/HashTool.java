@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashTool {
-    public static String SHA256sum(String input) {
+    public static String SHA256sum (String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] sha256 = digest.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -25,7 +25,7 @@ public class HashTool {
         return null;
     }
 
-    public static String getRandomString(Integer length) {
+    public static String getRandomString (Integer length) {
         String charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder();

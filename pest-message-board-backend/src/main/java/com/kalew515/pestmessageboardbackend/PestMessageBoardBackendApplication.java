@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = "com.kalew515.pestmessageboardbackend.mapper")
 public class PestMessageBoardBackendApplication {
 
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         SpringApplication.run(PestMessageBoardBackendApplication.class, args);
     }
 

@@ -28,9 +28,7 @@ public class Interceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-
         String token = httpServletRequest.getHeader("Authorization");
-
         User user = null;
         if (token != null) {
             token = token.replace("Bearer ", "");
@@ -42,7 +40,8 @@ public class Interceptor implements HandlerInterceptor {
         Method method = handlerMethod.getMethod();
 
         if (method.isAnnotationPresent(InterceptCheck.class)) {
-            Class[] classes = method.getAnnotation(InterceptCheck.class).checkers();
+            Class[] classes = method.getAnnotation(InterceptCheck.class)
+                                    .checkers();
             for (Class clazz : classes) {
                 BasicChecker checker = (BasicChecker) context.getBean(clazz);
                 if (!checker.check(httpServletRequest, httpServletResponse)) {
@@ -51,18 +50,18 @@ public class Interceptor implements HandlerInterceptor {
                 }
             }
         }
-//        Class methodClass = method.getDeclaringClass();
-//        if (methodClass.isAnnotationPresent(InterceptCheck.class)) {
-//            InterceptCheck intercept = (InterceptCheck) methodClass.getAnnotation(InterceptCheck.class);
-//            Class[] classes = intercept.checkers();
-//            for (Class clazz : classes) {
-//                BasicChecker checker = (BasicChecker) context.getBean(clazz);
-//                if (!checker.check(httpServletRequest, httpServletResponse)) {
-//                    httpServletRequest.setAttribute("com.kalew515.CheckError", checker.errorMessage());
-//                    throw new CheckFailException("Check failed in " + clazz.getName() + " with " + method.getName());
-//                }
-//            }
-//        }
+        //        Class methodClass = method.getDeclaringClass();
+        //        if (methodClass.isAnnotationPresent(InterceptCheck.class)) {
+        //            InterceptCheck intercept = (InterceptCheck) methodClass.getAnnotation(InterceptCheck.class);
+        //            Class[] classes = intercept.checkers();
+        //            for (Class clazz : classes) {
+        //                BasicChecker checker = (BasicChecker) context.getBean(clazz);
+        //                if (!checker.check(httpServletRequest, httpServletResponse)) {
+        //                    httpServletRequest.setAttribute("com.kalew515.CheckError", checker.errorMessage());
+        //                    throw new CheckFailException("Check failed in " + clazz.getName() + " with " + method.getName());
+        //                }
+        //            }
+        //        }
         return true;
     }
 

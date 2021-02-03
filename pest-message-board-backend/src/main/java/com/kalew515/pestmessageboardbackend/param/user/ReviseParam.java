@@ -6,9 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class ReviseParam {
-    @NotNull(message = "原始密码不能为空")
-    String oldPassword;
+    @NotNull(message = "原始密码不能为空") String oldPassword;
 
-    @NotNull(message = "新密码不能为空")
-    String newPassword;
+    @NotNull(message = "新密码不能为空") String newPassword;
 }

@@ -38,8 +38,10 @@ public class UserController {
     @PostMapping("/login")
     public Response<String> login (@Valid @RequestBody LoginParam loginParam, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
+                                           .getDefaultMessage());
         }
+        kaptcha.validate(loginParam.getCode());
         List<User> users = userService.getUserByUsername(loginParam.getUsername());
         if (users.size() == 0) {
             return Response.invalid("没有此帐号");
@@ -48,7 +50,8 @@ public class UserController {
             return Response.invalid("该帐号已经被冻结");
         }
         if (userService.validatePassword(loginParam)) {
-            return Response.success("登陆成功", jwtService.signToken(users.get(0).getUserId()));
+            return Response.success("登录成功", jwtService.signToken(users.get(0)
+                                                                      .getUserId()));
         } else {
             userService.addPwdFalseCount(loginParam.getUsername());
             return Response.invalid("密码错误");
@@ -58,7 +61,8 @@ public class UserController {
     @PostMapping("/register")
     public Response<String> register (@Valid @RequestBody RegisterParam registerParam, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
+                                           .getDefaultMessage());
         }
         List<User> users = userService.getUserByUsername(registerParam.getUsername());
         if (users.size() >= 1) {
@@ -82,7 +86,8 @@ public class UserController {
     @PostMapping("/revise")
     public Response<String> revise (@Valid @RequestBody ReviseParam reviseParam, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
+                                           .getDefaultMessage());
         }
         User user = currUserService.getCurrUser();
         if (userService.validatePassword(user, reviseParam.getOldPassword())) {
@@ -94,18 +99,12 @@ public class UserController {
     }
 
     @GetMapping("/captcha")
-    public void render() {
+    public void render () {
         kaptcha.render();
     }
 
-    @PostMapping("/valid")
-    public void validDefaultTime(@RequestParam String code) {
-        //default timeout 900 seconds
-        kaptcha.validate(code);
-    }
-
     @PostMapping("/validTime")
-    public void validCustomTime(@RequestParam String code) {
+    public void validCustomTime (@RequestParam String code) {
         kaptcha.validate(code, 60);
     }
 }

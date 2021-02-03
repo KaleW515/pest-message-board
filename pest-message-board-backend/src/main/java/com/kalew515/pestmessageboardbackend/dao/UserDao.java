@@ -33,7 +33,8 @@ public class UserDao {
 
     // 获取用户密码
     public String getPasswordByUsername (String username) {
-        return getUserByUsername(username).get(0).getPassword();
+        return getUserByUsername(username).get(0)
+                                          .getPassword();
     }
 
     // 更新用户密码

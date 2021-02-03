@@ -52,7 +52,8 @@ public class UserService {
         String truePassword = userDao.getPasswordByUsername(loginParam.getUsername());
         String salt = truePassword.substring(0, 16);
         String expectPassword = truePassword.substring(17, 81);
-        return Objects.requireNonNull(HashTool.SHA256sum(salt + loginParam.getPassword())).equals(expectPassword);
+        return Objects.requireNonNull(HashTool.SHA256sum(salt + loginParam.getPassword()))
+                      .equals(expectPassword);
     }
 
     // 进行密码比对
@@ -60,7 +61,8 @@ public class UserService {
         String truePassword = userDao.getPasswordByUsername(user.getUsername());
         String salt = truePassword.substring(0, 16);
         String expectPassword = truePassword.substring(17, 81);
-        return Objects.requireNonNull(HashTool.SHA256sum(salt + password)).equals(expectPassword);
+        return Objects.requireNonNull(HashTool.SHA256sum(salt + password))
+                      .equals(expectPassword);
     }
 
     // 更改用户密码
@@ -73,7 +75,9 @@ public class UserService {
 
     // 检查是否已经被冻结
     public boolean isFreeze (String username) {
-        int userId = userDao.getUserByUsername(username).get(0).getUserId();
+        int userId = userDao.getUserByUsername(username)
+                            .get(0)
+                            .getUserId();
         Object pwdFalseCount = redisTool.hget("info" + userId, "pwd_false_count");
         if (pwdFalseCount == null) {
             redisTool.hset("info" + userId, "pwd_false_count", 0);
@@ -84,7 +88,9 @@ public class UserService {
 
     // 增加错误次数
     public void addPwdFalseCount (String username) {
-        int userId = userDao.getUserByUsername(username).get(0).getUserId();
+        int userId = userDao.getUserByUsername(username)
+                            .get(0)
+                            .getUserId();
         redisTool.hincr("info" + userId, "pwd_false_count", 1);
     }
 

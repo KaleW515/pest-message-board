@@ -2,19 +2,19 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginFormRules" label-width="80px" class="login-form">
       <span class="login-title">欢迎登录</span>
-      <el-form-item label="账号" prop="phone">
-        <el-input type="text" placeholder="请输入账号" v-model="loginForm.phone" auto-complete="off"/>
+      <el-form-item label="账号" prop="username">
+        <el-input type="text" placeholder="请输入账号" v-model="loginForm.username" auto-complete="off"/>
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" auto-complete="off"/>
       </el-form-item>
-      <el-form-item label="验证码" prop="captcha" @keyup.enter.native="onSubmit('loginForm')">
+      <el-form-item label="验证码" prop="code" @keyup.enter.native="onSubmit('loginForm')">
         <el-row>
           <el-col :span="12">
-            <el-input type="text" placeholder="请输入验证码" v-model="loginForm.captcha" auto-complete="off"/>
+            <el-input type="text" placeholder="请输入验证码" v-model="loginForm.code" auto-complete="off"/>
           </el-col>
-          <el-col :span="12" style="height: 40px;">
-            <img :src="captchaUrl" alt="点击换一张" id="id_captcha" @click="onCaptcha">
+          <el-col :span="12" style="height: 30px;">
+            <img :src=captchaUrl alt="点击换一张" id="id_captcha" @click="onCaptcha">
           </el-col>
         </el-row>
       </el-form-item>
@@ -86,17 +86,18 @@ export default {
           this.loginForm.password = getHash(this.loginForm.password)
           login(this.loginForm)
             .then((response) => {
-              if (response.data.msg !== 'success') {
-                this.$message.error(response.data.payload)
+              if (response.data.msg !== '登录成功') {
+                this.$message.error(response.data.msg)
                 this.fullscreenLoading = false
                 this.onCaptcha()
               } else {
-                localStorage.setItem('Authorization', response.data.payload.token)
+                localStorage.setItem('Authorization', response.data.payload)
                 this.fullscreenLoading = false
                 this.$message({
                   message: '恭喜你，登录成功',
                   type: 'success'
                 })
+                this.$router.push('/home')
               }
             })
             .catch((error) => {
@@ -110,11 +111,11 @@ export default {
     onCaptcha () {
       getCaptcha()
         .then(response => {
-          const blob = new Blob([response.data], { type: 'image/png' })
+          const blob = new Blob([response.data], { type: 'image/jpeg' })
           this.captchaUrl = window.URL.createObjectURL(blob)
         })
-        .catch(error => {
-          console.log(error)
+        .catch(err => {
+          console.log(err)
         })
     },
     resetForm (formName) {

@@ -11,6 +11,7 @@ export const login = data => {
 export const getCaptcha = () => {
   return request({
     url: '/user/captcha',
-    method: 'GET'
+    method: 'GET',
+    responseType: 'arraybuffer'
   })
 }

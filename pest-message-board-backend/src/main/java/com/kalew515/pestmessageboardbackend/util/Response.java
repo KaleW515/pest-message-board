@@ -8,7 +8,7 @@ public class Response<T> {
     private String msg;
     private T payload;
 
-    public static <T> Response<T> success(String msg, T payload) {
+    public static <T> Response<T> success (String msg, T payload) {
         Response<T> response = new Response<>();
         response.setCode(200);
         response.setMsg(msg);
@@ -16,7 +16,7 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> success(String msg) {
+    public static <T> Response<T> success (String msg) {
         Response<T> response = new Response<>();
         response.setCode(200);
         response.setMsg(msg);
@@ -24,7 +24,7 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> failed(String msg, T payload) {
+    public static <T> Response<T> failed (String msg, T payload) {
         Response<T> response = new Response<>();
         response.setCode(500);
         response.setMsg(msg);
@@ -32,7 +32,7 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> failed(String msg) {
+    public static <T> Response<T> failed (String msg) {
         Response<T> response = new Response<>();
         response.setCode(500);
         response.setMsg(msg);
@@ -40,7 +40,7 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> invalid(String msg, T payload) {
+    public static <T> Response<T> invalid (String msg, T payload) {
         Response<T> response = new Response<>();
         response.setCode(400);
         response.setMsg(msg);
@@ -48,7 +48,7 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> invalid(String msg) {
+    public static <T> Response<T> invalid (String msg) {
         Response<T> response = new Response<>();
         response.setCode(400);
         response.setMsg(msg);

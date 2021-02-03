@@ -1,10 +1,12 @@
 package com.kalew515.pestmessageboardbackend.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class User {
+    @TableId
     @TableField(value = "user_id")
     Integer userId;
 

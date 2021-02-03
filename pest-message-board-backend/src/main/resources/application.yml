@@ -9,3 +9,28 @@ spring:
 
 jwt:
   secret-key: 4297f44b13955235245b2497399d7a93
+
+avatar:
+  save-path: '/home/kale/tmp/'
+
+comment:
+  page-size: 10
+
+kaptcha:
+  height: 40
+  width: 200
+  content:
+    length: 4
+    source: abcdefghjklmnopqrstuvwxyz23456789
+    space: 2
+  font:
+    color: black
+    name: Arial
+    size: 35
+  background-color:
+    from: white
+    to: white
+  border:
+    enabled: false
+    color: black
+    thickness: 1

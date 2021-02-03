@@ -1,11 +1,12 @@
 package com.kalew515.pestmessageboardbackend.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class Comment {
+    @TableId
     @TableField(value = "comment_id")
     Integer commentId;
 

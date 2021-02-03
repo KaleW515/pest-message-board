@@ -15,7 +15,7 @@ public class KaptchaHandlerController {
         if (kaptchaException instanceof KaptchaIncorrectException) {
             return Response.invalid("验证码不正确");
         } else if (kaptchaException instanceof KaptchaNotFoundException) {
-            return Response.invalid("验证码未找到");
+            return Response.invalid("验证码错误");
         } else if (kaptchaException instanceof KaptchaTimeoutException) {
             return Response.invalid("验证码过期");
         } else {
