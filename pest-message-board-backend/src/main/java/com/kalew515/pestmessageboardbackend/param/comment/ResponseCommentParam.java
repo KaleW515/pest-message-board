@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ResponseCommentParam {
+
     private String pubDate;
 
     private String fromUsername;

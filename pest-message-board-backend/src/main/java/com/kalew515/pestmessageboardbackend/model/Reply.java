@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class Reply {
+
     @TableId(value = "reply_id", type = IdType.AUTO)
     private Integer replyId;
 

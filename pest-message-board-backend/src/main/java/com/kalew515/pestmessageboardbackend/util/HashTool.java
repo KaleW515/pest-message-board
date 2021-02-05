@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashTool {
+
     public static String SHA256sum (String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

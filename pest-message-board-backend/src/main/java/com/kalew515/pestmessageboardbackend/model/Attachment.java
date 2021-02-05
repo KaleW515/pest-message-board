@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Attachment {
+
     @TableId(value = "attachment_uuid")
     private String attachmentUuid;
 

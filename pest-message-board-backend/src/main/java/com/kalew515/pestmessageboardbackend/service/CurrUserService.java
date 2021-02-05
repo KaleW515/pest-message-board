@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CurrUserService {
+
     private static final ThreadLocal<User> user = new ThreadLocal<>();
 
     public static void destroy () {

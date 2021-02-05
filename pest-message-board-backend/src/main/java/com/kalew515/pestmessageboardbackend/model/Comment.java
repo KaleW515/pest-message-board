@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class Comment {
+
     @TableId(value = "comment_id", type = IdType.AUTO)
     private Integer commentId;
 

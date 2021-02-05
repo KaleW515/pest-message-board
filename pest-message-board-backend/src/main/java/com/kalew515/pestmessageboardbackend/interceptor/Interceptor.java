@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 
 @Component
 public class Interceptor implements HandlerInterceptor {
+
     @Autowired
     private JwtService jwtService;
     @Autowired

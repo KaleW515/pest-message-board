@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class ErrorController extends AbstractErrorController {
+
     @Autowired
     ApplicationContext context;
 

@@ -16,6 +16,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/api")
 public class PestController {
+
     @GetMapping("/pest")
     @InterceptCheck(checkers = {LoginChecker.class})
     public Response<HashMap<String, Object>> getPestData () {

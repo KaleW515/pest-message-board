@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class Keyword {
+
     @TableId(value = "keyword_id", type = IdType.AUTO)
     private Integer keywordId;
 

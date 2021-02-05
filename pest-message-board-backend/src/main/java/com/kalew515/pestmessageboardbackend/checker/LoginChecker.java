@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class LoginChecker implements BasicChecker {
+
     @Autowired
     CurrUserService currUserService;
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class KaptchaHandlerController {
+
     @ExceptionHandler(value = KaptchaException.class)
     public Response<String> kaptchaExceptionHandler (KaptchaException kaptchaException) {
         if (kaptchaException instanceof KaptchaIncorrectException) {

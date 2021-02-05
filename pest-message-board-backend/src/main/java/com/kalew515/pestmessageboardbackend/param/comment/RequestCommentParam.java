@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class RequestCommentParam {
+
     private String searchField;
 
     private Integer page;
