@@ -18,6 +18,7 @@ public class AttachmentDao {
 
     // 根据uuid获取文件名
     public String getFilenameByUUID (String uuid) {
-        return attachmentMapper.selectById(uuid).getAttachmentName();
+        return attachmentMapper.selectById(uuid)
+                               .getAttachmentName();
     }
 }

@@ -37,7 +37,7 @@ public class CommentController {
                                            .getDefaultMessage());
         }
         if (commentService.insertComment(content.get("content"), currUserService.getCurrUser()
-                                                                 .getUserId()) >= 1) {
+                                                                                .getUserId()) >= 1) {
             return Response.success("添加成功");
         } else {
             return Response.invalid("添加失败");

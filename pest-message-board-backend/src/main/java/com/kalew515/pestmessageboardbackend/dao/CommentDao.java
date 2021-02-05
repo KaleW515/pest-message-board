@@ -36,9 +36,9 @@ public class CommentDao {
             }
         }
         commentParams.setCommentParams(commentMapper.selectPage(commentPage, wrapper)
-                                                .getRecords());
+                                                    .getRecords());
         commentParams.setTotal(commentMapper.selectPage(commentPage, wrapper)
-                                        .getTotal());
+                                            .getTotal());
         return commentParams;
     }
 

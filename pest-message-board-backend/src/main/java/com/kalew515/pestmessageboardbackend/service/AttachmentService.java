@@ -28,7 +28,7 @@ public class AttachmentService {
     @Autowired
     private UserService userService;
 
-    private String getFileSavePath() {
+    private String getFileSavePath () {
         File path = new File(fileSavePath);
         if (!path.isDirectory()) {
             boolean mkdirs = path.mkdirs();
@@ -36,24 +36,26 @@ public class AttachmentService {
         return path.getAbsolutePath();
     }
 
-    public Integer saveFile(MultipartFile file) throws IOException {
-        String uuid = UUID.randomUUID().toString();
+    public Integer saveFile (MultipartFile file) throws IOException {
+        String uuid = UUID.randomUUID()
+                          .toString();
         FileOutputStream fos = new FileOutputStream(String.format("%s/%s", getFileSavePath(), uuid));
         fos.write(file.getBytes());
         fos.close();
         Attachment attachment = new Attachment(uuid, file.getOriginalFilename());
         User user = new User();
-        user.setUserId(currUserService.getCurrUser().getUserId());
+        user.setUserId(currUserService.getCurrUser()
+                                      .getUserId());
         user.setAvatarUUID(uuid);
         userService.updateAvatar(user);
         return attachmentDao.insertAttachment(attachment);
     }
 
-    public String getOriginalFilenameByUUID(String uuid) {
+    public String getOriginalFilenameByUUID (String uuid) {
         return attachmentDao.getFilenameByUUID(uuid);
     }
 
-    public File getFileByUUID(String uuid) {
+    public File getFileByUUID (String uuid) {
         return new File(String.format("%s/%s", getFileSavePath(), uuid));
     }
 }
