@@ -121,7 +121,11 @@ public class UserService {
     // 修改用户签名
     public void updateSignature (User user, String signature) {
         user.setSignature(signature);
-        System.out.println(user);
+        userDao.updateUser(user);
+    }
+
+    // 修改头像
+    public void updateAvatar (User user) {
         userDao.updateUser(user);
     }
 }

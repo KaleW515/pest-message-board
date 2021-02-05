@@ -2,6 +2,7 @@ package com.kalew515.pestmessageboardbackend.service;
 
 import com.kalew515.pestmessageboardbackend.dao.AttachmentDao;
 import com.kalew515.pestmessageboardbackend.model.Attachment;
+import com.kalew515.pestmessageboardbackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,12 @@ public class AttachmentService {
     @Autowired
     private AttachmentDao attachmentDao;
 
+    @Autowired
+    private CurrUserService currUserService;
+
+    @Autowired
+    private UserService userService;
+
     private String getFileSavePath() {
         File path = new File(fileSavePath);
         if (!path.isDirectory()) {
@@ -35,6 +42,10 @@ public class AttachmentService {
         fos.write(file.getBytes());
         fos.close();
         Attachment attachment = new Attachment(uuid, file.getOriginalFilename());
+        User user = new User();
+        user.setUserId(currUserService.getCurrUser().getUserId());
+        user.setAvatarUUID(uuid);
+        userService.updateAvatar(user);
         return attachmentDao.insertAttachment(attachment);
     }
 
