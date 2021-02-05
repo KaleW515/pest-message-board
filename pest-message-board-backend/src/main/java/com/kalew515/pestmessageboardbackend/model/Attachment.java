@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Attachment {
-    @TableId
-    @TableField(value = "attachment_uuid")
-    String attachmentUuid;
+    @TableId(value = "attachment_uuid")
+    private String attachmentUuid;
 
     @TableField(value = "attachment_name")
-    String attachmentName;
+    private String attachmentName;
 }

@@ -13,6 +13,8 @@ jwt:
 avatar:
   save-path: '/home/kale/tmp/'
 
+base-url: 'http://127.0.0.1:8080/api/attachment/'
+
 comment:
   page-size: 10
 

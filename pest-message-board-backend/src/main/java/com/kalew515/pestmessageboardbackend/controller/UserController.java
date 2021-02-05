@@ -6,21 +6,26 @@ import com.kalew515.pestmessageboardbackend.interceptor.InterceptCheck;
 import com.kalew515.pestmessageboardbackend.model.User;
 import com.kalew515.pestmessageboardbackend.param.user.LoginParam;
 import com.kalew515.pestmessageboardbackend.param.user.RegisterParam;
+import com.kalew515.pestmessageboardbackend.param.user.ResponseUserInfoParam;
 import com.kalew515.pestmessageboardbackend.param.user.ReviseParam;
 import com.kalew515.pestmessageboardbackend.service.CurrUserService;
 import com.kalew515.pestmessageboardbackend.service.JwtService;
 import com.kalew515.pestmessageboardbackend.service.UserService;
 import com.kalew515.pestmessageboardbackend.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/user")
+@InterceptCheck(checkers = {LoginChecker.class})
 public class UserController {
 
     @Autowired
@@ -34,6 +39,9 @@ public class UserController {
 
     @Autowired
     private Kaptcha kaptcha;
+
+    @Value("${base-url}")
+    private String baseUrl;
 
     @PostMapping("/login")
     public Response<String> login (@Valid @RequestBody LoginParam loginParam, BindingResult bindingResult) {
@@ -106,5 +114,32 @@ public class UserController {
     @PostMapping("/validTime")
     public void validCustomTime (@RequestParam String code) {
         kaptcha.validate(code, 60);
+    }
+
+    // 获取用户信息
+    @GetMapping("/info")
+    public Response<ResponseUserInfoParam> getUserInfo () {
+        return Response.success("", userService.getUserInfo());
+    }
+
+    // 修改用户签名
+    @InterceptCheck(checkers = {LoginChecker.class})
+    @PostMapping("/signature")
+    public Response<String> updateSignature (@RequestBody Map<String, String> signature) {
+        userService.updateSignature(currUserService.getCurrUser(), signature.get("signature"));
+        return Response.success("success");
+    }
+
+    // 根据姓名获取用户信息
+    @InterceptCheck(checkers = {LoginChecker.class})
+    @GetMapping("/info/{name}")
+    public Response<Map<String, Object>> getUserInfoByName (@PathVariable String name) {
+        User user = userService.getUserByUsername(name)
+                               .get(0);
+        Map<String, Object> result = new HashMap<>();
+        result.put("signature", user.getSignature());
+        result.put("username", user.getUsername());
+        result.put("avatarUuid", baseUrl + user.getAvatarUUID());
+        return Response.success("", result);
     }
 }

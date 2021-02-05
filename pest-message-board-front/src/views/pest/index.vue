@@ -102,6 +102,7 @@ export default {
         deadData: '',
         healData: ''
       },
+      value: '',
       chinaPestData: {
         confirmData: 0,
         suspectData: 0,

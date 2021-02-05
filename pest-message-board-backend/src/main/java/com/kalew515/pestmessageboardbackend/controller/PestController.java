@@ -1,5 +1,7 @@
 package com.kalew515.pestmessageboardbackend.controller;
 
+import com.kalew515.pestmessageboardbackend.checker.LoginChecker;
+import com.kalew515.pestmessageboardbackend.interceptor.InterceptCheck;
 import com.kalew515.pestmessageboardbackend.util.Response;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 @RequestMapping("/api")
 public class PestController {
     @GetMapping("/pest")
+    @InterceptCheck(checkers = {LoginChecker.class})
     public Response<HashMap<String, Object>> getPestData () {
         String url = "https://c.m.163.com/ug/api/wuhan/app/data/list-total?t=1581959283780";
         try {

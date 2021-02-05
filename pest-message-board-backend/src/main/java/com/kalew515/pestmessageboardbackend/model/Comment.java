@@ -1,27 +1,27 @@
 package com.kalew515.pestmessageboardbackend.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class Comment {
-    @TableId
-    @TableField(value = "comment_id")
-    Integer commentId;
+    @TableId(value = "comment_id", type = IdType.AUTO)
+    private Integer commentId;
 
     @TableField(value = "like_num")
-    Integer likeNum;
+    private Integer likeNum;
 
     @TableField(value = "dislike_num")
-    Integer dislikeNum;
+    private Integer dislikeNum;
 
     @TableField(value = "content")
-    String content;
+    private String content;
 
     @TableField(value = "pub_date")
-    String publishTime;
+    private String publishTime;
 
     @TableField(value = "user_id")
-    Integer userId;
+    private Integer userId;
 }

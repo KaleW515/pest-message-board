@@ -26,7 +26,7 @@
               <span>个人主页</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/home/userinfo">我的主页</el-menu-item>
+              <el-menu-item index="/home/user">我的主页</el-menu-item>
               <el-menu-item index="/home/publish">发布留言</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { getUserInfo } from '@/api/user'
+
 export default {
   name: 'HomeIndex',
   components: {},
@@ -52,6 +54,13 @@ export default {
   created () {
   },
   mounted () {
+    getUserInfo()
+      .then(res => {
+        localStorage.setItem('username', res.data.payload.username)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   },
   methods: {}
 }

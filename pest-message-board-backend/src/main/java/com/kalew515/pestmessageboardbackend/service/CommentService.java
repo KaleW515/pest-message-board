@@ -2,14 +2,20 @@ package com.kalew515.pestmessageboardbackend.service;
 
 import com.kalew515.pestmessageboardbackend.dao.CommentDao;
 import com.kalew515.pestmessageboardbackend.model.Comment;
-import com.kalew515.pestmessageboardbackend.param.comment.CommentParam;
+import com.kalew515.pestmessageboardbackend.param.comment.CommentParams;
+import com.kalew515.pestmessageboardbackend.param.comment.RequestCommentParam;
 import com.kalew515.pestmessageboardbackend.param.comment.ResponseCommentParam;
+import com.kalew515.pestmessageboardbackend.util.RedisTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentService {
@@ -20,15 +26,30 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisTool redisTool;
+
     @Value("${comment.page-size}")
     private Integer pageSize;
 
-    // 获取评论
-    public List<ResponseCommentParam> getComments (CommentParam commentParam) {
-        if (commentParam.getPage() == null) {
-            commentParam.setPage(1);
+    @Value("${base-url}")
+    private String baseUrl;
+
+    // 获取留言
+    public Map<String, Object> getComments (RequestCommentParam requestCommentParam) {
+        if (requestCommentParam.getPage() == null) {
+            requestCommentParam.setPage(1);
         }
-        List<Comment> comments = commentDao.getComment(commentParam, pageSize);
+        List<Comment> comments;
+        Long total;
+        CommentParams commentParams;
+        if (requestCommentParam.getUserId() == null) {
+            commentParams = commentDao.getComment(requestCommentParam, pageSize);
+        } else {
+            commentParams = commentDao.getCommentByUserId(requestCommentParam, pageSize);
+        }
+        comments = commentParams.getCommentParams();
+        total = commentParams.getTotal();
         List<ResponseCommentParam> responseCommentParams = new ArrayList<>();
         for (Comment comment : comments) {
             ResponseCommentParam responseCommentParam = new ResponseCommentParam();
@@ -37,13 +58,65 @@ public class CommentService {
                                                             .getUsername());
             responseCommentParam.setCommentId(comment.getCommentId());
             responseCommentParam.setContent(comment.getContent());
-            responseCommentParam.setAvatarUrl(userService.getUserById(commentUserId)
-                                                         .getAvatarUUID());
+            responseCommentParam.setAvatarUrl(baseUrl + userService.getUserById(commentUserId)
+                                                                   .getAvatarUUID());
             responseCommentParam.setLikeNum(comment.getLikeNum());
             responseCommentParam.setDislikeNum(comment.getDislikeNum());
             responseCommentParam.setPubDate(comment.getPublishTime());
+            responseCommentParam.setReplyIsShow(false);
+            responseCommentParam.setInputIsShow(false);
             responseCommentParams.add(responseCommentParam);
         }
-        return responseCommentParams;
+        Map<String, Object> result = new HashMap<>();
+        result.put("comment", responseCommentParams);
+        result.put("total", total);
+        return result;
+    }
+
+    // 插入留言
+    public Integer insertComment (String content, Integer userId) {
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setDislikeNum(0);
+        comment.setLikeNum(0);
+        comment.setUserId(userId);
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        comment.setPublishTime(dateTime.format(formatter));
+        return commentDao.insertComment(comment);
+    }
+
+    // 点赞
+    public boolean addLikeNum (Integer commentId, Integer userId) {
+        if (redisTool.sHasKey("like" + commentId, userId.toString())) {
+            return false;
+        }
+        redisTool.sSet("like" + commentId, userId.toString());
+        commentDao.addLikeNumCount(commentId);
+        redisTool.hincr("info" + commentDao.getCommentByCommentId(commentId)
+                                           .getUserId(), "nlike", 1);
+        return true;
+    }
+
+    // 点踩
+    public boolean addDislikeNum (Integer commentId, Integer userId) {
+        if (redisTool.sHasKey("dislike" + commentId, userId.toString())) {
+            return false;
+        }
+        redisTool.sSet("dislike" + commentId, userId.toString());
+        commentDao.addDislikeNumCount(commentId);
+        redisTool.hincr("info" + commentDao.getCommentByCommentId(commentId)
+                                           .getUserId(), "ndislike", 1);
+        return true;
+    }
+
+    // 根据留言id获取留言
+    public Comment getCommentByCommentId (Integer commentId) {
+        return commentDao.getCommentByCommentId(commentId);
+    }
+
+    // 根据留言id删除留言
+    public Integer deleteCommentByCommentId (Integer commentId) {
+        return commentDao.deleteCommentByCommentId(commentId);
     }
 }

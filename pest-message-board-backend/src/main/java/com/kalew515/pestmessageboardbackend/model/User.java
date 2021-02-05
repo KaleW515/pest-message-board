@@ -1,30 +1,30 @@
 package com.kalew515.pestmessageboardbackend.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class User {
-    @TableId
-    @TableField(value = "user_id")
-    Integer userId;
+    @TableId(value = "user_id", type = IdType.AUTO)
+    private Integer userId;
 
     @TableField(value = "username")
-    String username;
+    private String username;
 
     @TableField(value = "password")
-    String password;
+    private String password;
 
     @TableField(value = "date_joined")
-    String dateJoined;
+    private String dateJoined;
 
     @TableField(value = "is_superuser")
-    Integer isSuperuser;
+    private Integer isSuperuser;
 
     @TableField(value = "signature")
-    String signature;
+    private String signature;
 
     @TableField(value = "avatar_uuid")
-    String avatarUUID;
+    private String avatarUUID;
 }

@@ -15,3 +15,33 @@ export const getCaptcha = () => {
     responseType: 'arraybuffer'
   })
 }
+
+export const getUserInfo = () => {
+  return request({
+    url: '/user/info',
+    method: 'GET'
+  })
+}
+
+export const updateSignature = data => {
+  return request({
+    url: '/user/signature',
+    method: 'POST',
+    data
+  })
+}
+
+export const revisePassword = data => {
+  return request({
+    url: '/user/revise',
+    method: 'POST',
+    data
+  })
+}
+
+export const getInfoByName = username => {
+  return request({
+    url: `/user/info/${username}`,
+    method: 'GET'
+  })
+}

@@ -17,4 +17,8 @@ public class ResponseCommentParam {
     private Integer dislikeNum;
 
     private String content;
+
+    private Boolean replyIsShow;
+
+    private Boolean inputIsShow;
 }

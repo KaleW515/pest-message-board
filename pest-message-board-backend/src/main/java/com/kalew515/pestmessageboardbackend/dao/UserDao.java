@@ -37,8 +37,9 @@ public class UserDao {
                                           .getPassword();
     }
 
-    // 更新用户密码
-    public void updatePassword (User user) {
+    // 更新用户
+    public void updateUser (User user) {
         userMapper.updateById(user);
     }
+
 }

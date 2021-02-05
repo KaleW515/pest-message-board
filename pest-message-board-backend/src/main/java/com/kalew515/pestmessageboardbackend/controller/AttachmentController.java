@@ -1,5 +1,7 @@
 package com.kalew515.pestmessageboardbackend.controller;
 
+import com.kalew515.pestmessageboardbackend.checker.LoginChecker;
+import com.kalew515.pestmessageboardbackend.interceptor.InterceptCheck;
 import com.kalew515.pestmessageboardbackend.service.AttachmentService;
 import com.kalew515.pestmessageboardbackend.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -26,7 +25,8 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    @PutMapping("/attachment")
+    @InterceptCheck(checkers = {LoginChecker.class})
+    @PostMapping("/attachment")
     public Response<String> upload (MultipartFile file) throws IOException {
         if (file == null) {
             return Response.invalid("无效参数");
@@ -38,8 +38,8 @@ public class AttachmentController {
         }
     }
 
-    @PostMapping("/attachment")
-    public ResponseEntity<FileSystemResource> download (String uuid){
+    @GetMapping("/attachment/{uuid}")
+    public ResponseEntity<FileSystemResource> download (@PathVariable String uuid) {
         String originalFilename = attachmentService.getOriginalFilenameByUUID(uuid);
         if (originalFilename == null) {
             return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);

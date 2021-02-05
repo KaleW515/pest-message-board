@@ -1,23 +1,24 @@
 package com.kalew515.pestmessageboardbackend.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class Reply {
-    @TableField(value = "reply_id")
-    Integer replyId;
+    @TableId(value = "reply_id", type = IdType.AUTO)
+    private Integer replyId;
 
     @TableField(value = "from_user_id")
-    Integer fromUserId;
+    private Integer fromUserId;
 
     @TableField(value = "to_comment_id")
-    Integer toCommentId;
+    private Integer toCommentId;
 
-    @TableField(value = "pub_date")
-    String publishTime;
+    @TableField(value = "publish_date")
+    private String publishDate;
 
     @TableField(value = "content")
-    String content;
+    private String content;
 }

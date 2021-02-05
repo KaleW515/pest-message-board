@@ -4,9 +4,11 @@ import com.kalew515.pestmessageboardbackend.dao.UserDao;
 import com.kalew515.pestmessageboardbackend.model.User;
 import com.kalew515.pestmessageboardbackend.param.user.LoginParam;
 import com.kalew515.pestmessageboardbackend.param.user.RegisterParam;
+import com.kalew515.pestmessageboardbackend.param.user.ResponseUserInfoParam;
 import com.kalew515.pestmessageboardbackend.util.HashTool;
 import com.kalew515.pestmessageboardbackend.util.RedisTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,12 @@ public class UserService {
 
     @Autowired
     private RedisTool redisTool;
+
+    @Autowired
+    private CurrUserService currUserService;
+
+    @Value("${base-url}")
+    private String baseUrl;
 
     // 根据用户名查询用户
     public List<User> getUserByUsername (String username) {
@@ -70,7 +78,7 @@ public class UserService {
         String salt = HashTool.getRandomString(16);
         String newPassword = salt + ":" + HashTool.SHA256sum(salt + password);
         user.setPassword(newPassword);
-        userDao.updatePassword(user);
+        userDao.updateUser(user);
     }
 
     // 检查是否已经被冻结
@@ -97,5 +105,23 @@ public class UserService {
     // 解冻用户
     public boolean unFreezeUser (Integer userId) {
         return redisTool.hset("info" + userId, "pwd_false_count", 0);
+    }
+
+    // 获取当前用户信息
+    public ResponseUserInfoParam getUserInfo () {
+        User user = currUserService.getCurrUser();
+        ResponseUserInfoParam responseUserInfoParam = new ResponseUserInfoParam();
+        responseUserInfoParam.setAvatarUuid(baseUrl + user.getAvatarUUID());
+        responseUserInfoParam.setUsername(user.getUsername());
+        responseUserInfoParam.setSignature(user.getSignature());
+        responseUserInfoParam.setUserId(user.getUserId());
+        return responseUserInfoParam;
+    }
+
+    // 修改用户签名
+    public void updateSignature (User user, String signature) {
+        user.setSignature(signature);
+        System.out.println(user);
+        userDao.updateUser(user);
     }
 }

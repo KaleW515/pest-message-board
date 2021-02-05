@@ -1,14 +1,15 @@
 package com.kalew515.pestmessageboardbackend.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class Keyword {
-    @TableField(value = "keyword_id")
-    Integer keywordId;
+    @TableId(value = "keyword_id", type = IdType.AUTO)
+    private Integer keywordId;
 
     @TableField(value = "keyword")
-    String keyword;
+    private String keyword;
 }

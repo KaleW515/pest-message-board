@@ -27,8 +27,23 @@ const routes = [
         path: '/home/message-board',
         name: 'MessageBoard',
         component: () => import('@/views/message/board/index')
+      },
+      {
+        path: '/home/user',
+        name: 'User',
+        component: () => import('@/views/user/index')
+      },
+      {
+        path: '/home/publish',
+        name: 'Publish',
+        component: () => import('@/views/publish/index')
       }
     ]
+  },
+  {
+    path: '/other',
+    name: 'Other',
+    component: () => import('@/views/other/index')
   }
 ]
 
