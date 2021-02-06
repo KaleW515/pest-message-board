@@ -12,4 +12,6 @@ public class ResponseUserInfoParam {
     private String signature;
 
     private String avatarUuid;
+
+    private Integer isSuperuser;
 }

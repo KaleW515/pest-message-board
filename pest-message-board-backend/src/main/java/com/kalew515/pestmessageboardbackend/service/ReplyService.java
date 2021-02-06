@@ -1,10 +1,12 @@
 package com.kalew515.pestmessageboardbackend.service;
 
+import com.kalew515.pestmessageboardbackend.dao.CommentDao;
 import com.kalew515.pestmessageboardbackend.dao.ReplyDao;
 import com.kalew515.pestmessageboardbackend.model.Reply;
 import com.kalew515.pestmessageboardbackend.param.reply.ReplyParams;
 import com.kalew515.pestmessageboardbackend.param.reply.RequestReplyParam;
 import com.kalew515.pestmessageboardbackend.param.reply.ResponseReplyParam;
+import com.kalew515.pestmessageboardbackend.util.RedisTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,12 @@ public class ReplyService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisTool redisTool;
+
+    @Autowired
+    private CommentDao commentDao;
 
     @Value("${comment.page-size}")
     private Integer pageSize;
@@ -62,6 +70,8 @@ public class ReplyService {
         reply.setPublishDate(dateTime.format(formatter));
         reply.setFromUserId(fromUserId);
         reply.setToCommentId(requestReplyParam.getToCommentId());
+        redisTool.hincr("info" + commentDao.getCommentByCommentId(requestReplyParam.getToCommentId())
+                                           .getUserId(), "nreply", 1);
         return replyDao.insertReply(reply) >= 1;
     }
 

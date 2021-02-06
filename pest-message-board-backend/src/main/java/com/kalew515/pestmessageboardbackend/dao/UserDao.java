@@ -42,4 +42,8 @@ public class UserDao {
         userMapper.updateById(user);
     }
 
+    // 获取全部用户
+    public List<User> getAllUser () {
+        return userMapper.selectList(null);
+    }
 }

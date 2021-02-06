@@ -1,6 +1,7 @@
 package com.kalew515.pestmessageboardbackend.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
+import com.kalew515.pestmessageboardbackend.checker.AdminChecker;
 import com.kalew515.pestmessageboardbackend.checker.LoginChecker;
 import com.kalew515.pestmessageboardbackend.interceptor.InterceptCheck;
 import com.kalew515.pestmessageboardbackend.model.User;
@@ -80,7 +81,7 @@ public class UserController {
         return Response.success("注册成功");
     }
 
-    @InterceptCheck(checkers = {LoginChecker.class})
+    @InterceptCheck(checkers = {AdminChecker.class})
     @DeleteMapping("/unfreeze/{id}")
     public Response<String> unFreeze (@PathVariable Integer id) {
         if (userService.unFreezeUser(id)) {
@@ -88,6 +89,15 @@ public class UserController {
         } else {
             return Response.invalid("解冻失败");
         }
+    }
+
+    @InterceptCheck(checkers = {AdminChecker.class})
+    @PostMapping("/freeze/{id}")
+    public Response<String> freeze (@PathVariable Integer id) {
+        if (userService.freezeUser(id)) {
+            return Response.success("冻结成功");
+        }
+        return Response.invalid("冻结失败");
     }
 
     @InterceptCheck(checkers = {LoginChecker.class})
@@ -116,7 +126,7 @@ public class UserController {
         kaptcha.validate(code, 60);
     }
 
-    // 获取用户信息
+    // 获取当前用户信息
     @GetMapping("/info")
     public Response<ResponseUserInfoParam> getUserInfo () {
         return Response.success("", userService.getUserInfo());
@@ -140,6 +150,16 @@ public class UserController {
         result.put("signature", user.getSignature());
         result.put("username", user.getUsername());
         result.put("avatarUuid", baseUrl + user.getAvatarUUID());
+        return Response.success("", result);
+    }
+
+    // 获取全部用户信息
+    @InterceptCheck(checkers = {AdminChecker.class})
+    @PostMapping("/all")
+    public Response<Map<String, Object>> getAllUserInfo () {
+        List<User> users = userService.getAllUser();
+        Map<String, Object> result = new HashMap<>();
+        result.put("users", users);
         return Response.success("", result);
     }
 }

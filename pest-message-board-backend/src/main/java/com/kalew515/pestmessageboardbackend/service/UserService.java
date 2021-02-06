@@ -107,6 +107,11 @@ public class UserService {
         return redisTool.hset("info" + userId, "pwd_false_count", 0);
     }
 
+    // 冻结用户
+    public boolean freezeUser (Integer userId) {
+        return redisTool.hset("info" + userId, "pwd_false_count", 6);
+    }
+
     // 获取当前用户信息
     public ResponseUserInfoParam getUserInfo () {
         User user = currUserService.getCurrUser();
@@ -115,6 +120,7 @@ public class UserService {
         responseUserInfoParam.setUsername(user.getUsername());
         responseUserInfoParam.setSignature(user.getSignature());
         responseUserInfoParam.setUserId(user.getUserId());
+        responseUserInfoParam.setIsSuperuser(user.getIsSuperuser());
         return responseUserInfoParam;
     }
 
@@ -127,5 +133,10 @@ public class UserService {
     // 修改头像
     public void updateAvatar (User user) {
         userDao.updateUser(user);
+    }
+
+    // 获取全部用户
+    public List<User> getAllUser () {
+        return userDao.getAllUser();
     }
 }

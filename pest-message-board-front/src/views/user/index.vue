@@ -95,6 +95,7 @@ import { getCommentByUserId } from '@/api/comment'
 import request from '@/util/request'
 import { deleteReply, getReply } from '@/api/reply'
 import Revise from '@/views/user/component/revise'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'UserIndex',
@@ -122,8 +123,7 @@ export default {
       reply: []
     }
   },
-  computed: {
-  },
+  computed: {},
   watch: {},
   created () {
   },
@@ -137,6 +137,7 @@ export default {
       })
   },
   methods: {
+    ...mapMutations(['noticeInit']),
     openUpdateSignature () {
       this.$prompt('请输入新的签名', '提示', {
         confirmButtonText: '确定',
@@ -168,6 +169,11 @@ export default {
       if (open) {
         this.commentIsShow = !this.commentIsShow
       }
+      this.noticeInit({
+        newReply: 0,
+        newDislike: 0,
+        newLike: 0
+      })
       getCommentByUserId({
         userId: this.userInfo.userId,
         page: this.currentPage

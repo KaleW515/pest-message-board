@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CommentService {
@@ -28,6 +25,9 @@ public class CommentService {
 
     @Autowired
     private RedisTool redisTool;
+
+    @Autowired
+    private CurrUserService currUserService;
 
     @Value("${comment.page-size}")
     private Integer pageSize;
@@ -46,6 +46,10 @@ public class CommentService {
         if (requestCommentParam.getUserId() == null) {
             commentParams = commentDao.getComment(requestCommentParam, pageSize);
         } else {
+            if (Objects.equals(currUserService.getCurrUser()
+                                              .getUserId(), requestCommentParam.getUserId())) {
+                this.resetNotice(requestCommentParam.getUserId());
+            }
             commentParams = commentDao.getCommentByUserId(requestCommentParam, pageSize);
         }
         comments = commentParams.getCommentParams();
@@ -118,5 +122,12 @@ public class CommentService {
     // 根据留言id删除留言
     public Integer deleteCommentByCommentId (Integer commentId) {
         return commentDao.deleteCommentByCommentId(commentId);
+    }
+
+    // 将新通知归零
+    public void resetNotice (Integer id) {
+        redisTool.hset("info" + id, "nreply", 0);
+        redisTool.hset("info" + id, "nlike", 0);
+        redisTool.hset("info" + id, "ndislike", 0);
     }
 }

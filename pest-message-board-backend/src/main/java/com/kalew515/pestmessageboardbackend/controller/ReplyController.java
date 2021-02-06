@@ -33,6 +33,7 @@ public class ReplyController {
         }
         if (replyService.insertReply(requestReplyParam, currUserService.getCurrUser()
                                                                        .getUserId())) {
+
             return Response.success("success");
         }
         return Response.invalid("failed");

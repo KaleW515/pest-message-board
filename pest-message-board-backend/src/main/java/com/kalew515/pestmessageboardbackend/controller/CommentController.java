@@ -24,6 +24,9 @@ public class CommentController {
     @Autowired
     private CurrUserService currUserService;
 
+    @Autowired
+    private WebSocketController webSocketController;
+
     @InterceptCheck(checkers = {LoginChecker.class})
     @PostMapping("/comment")
     public Response<Map<String, Object>> getAllComments (@RequestBody RequestCommentParam requestCommentParam) {
