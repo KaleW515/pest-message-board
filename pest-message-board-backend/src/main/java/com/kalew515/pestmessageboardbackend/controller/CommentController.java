@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api")
 public class CommentController {
 
     @Autowired

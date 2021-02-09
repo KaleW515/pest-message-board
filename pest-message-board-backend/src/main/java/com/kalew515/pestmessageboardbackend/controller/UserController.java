@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 @InterceptCheck(checkers = {LoginChecker.class})
 public class UserController {
 
@@ -161,5 +161,10 @@ public class UserController {
         Map<String, Object> result = new HashMap<>();
         result.put("users", users);
         return Response.success("", result);
+    }
+
+    @GetMapping("/test")
+    public String test () {
+        return "success";
     }
 }

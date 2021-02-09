@@ -14,6 +14,11 @@ const routes = [
     component: () => import('@/views/login/index')
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/register/index')
+  },
+  {
     path: '/home',
     name: 'Home',
     component: () => import('@/views/home/index'),
@@ -53,8 +58,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
   routes
 })
 

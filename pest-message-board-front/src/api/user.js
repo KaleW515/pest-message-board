@@ -8,6 +8,14 @@ export const login = data => {
   })
 }
 
+export const register = data => {
+  return request({
+    url: '/user/register',
+    method: 'POST',
+    data
+  })
+}
+
 export const getCaptcha = () => {
   return request({
     url: '/user/captcha',

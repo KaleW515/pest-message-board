@@ -90,6 +90,7 @@ export default {
                 this.$message.error(response.data.msg)
                 this.fullscreenLoading = false
                 this.onCaptcha()
+                this.resetForm(formName)
               } else {
                 localStorage.setItem('Authorization', response.data.payload)
                 this.fullscreenLoading = false

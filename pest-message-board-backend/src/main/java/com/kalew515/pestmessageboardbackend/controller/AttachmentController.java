@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api")
 public class AttachmentController {
 
     @Autowired

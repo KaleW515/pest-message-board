@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: messageboard
+      TZ: Asia/Shanghai
+    volumes:
+      - ./pest-message-board-backend/messageboard.sql:/docker-entrypoint-initdb.d/messageboard.sql
+  
+  redis:
+    image: 'redis:alpine'
+
+  web:
+    image: nginx
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./pest-message-board-front/dist/:/static/:ro
+    command: [nginx, '-g', 'daemon off;']
+    ports:
+      - "19131:80"
+
+  java:
+    image: openjdk:11
+    volumes:
+      - ./pest-message-board-backend-0.0.1-SNAPSHOT.jar:/app.jar
+    command: [bash, '-c', "mkdir -p /upload/ && sleep 5 && java -jar /app.jar"]
