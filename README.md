@@ -19,8 +19,6 @@
 9. docker-compose up
 ```
 
-
-
 # front
 
 vue
@@ -29,3 +27,8 @@ vue
 
 springboot
 - 疫情信息展示接口可能用不了了,未更新
+
+# database
+
+mysql, redis
+- 默认用户名为kale, 密码123
