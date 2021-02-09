@@ -8,13 +8,14 @@
 
 ```shell
 1. cd pest-message-board-front/ 
-2. npm run build
-3. cd ..
-4. cd pest-message-board-backend
-5. mvn clean package
-6. mv pest-message-board-backend-0.0.1-SNAPSHOT.jar ../
-7. cd ..
-8. docker-compose up
+2. npm install
+3. npm run build
+4. cd ..
+5. cd pest-message-board-backend
+6. mvn clean package
+7. mv pest-message-board-backend-0.0.1-SNAPSHOT.jar ../
+8. cd ..
+9. docker-compose up
 ```
 
 
