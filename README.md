@@ -3,6 +3,7 @@
 - 一个简易的网络留言板,基本功能都写好了
 - 使用docker快速部署
 - 使用websocket进行消息推送
+- 需要环境: npm, maven, docker, docker-compose
 
 # evelopment Setup
 
