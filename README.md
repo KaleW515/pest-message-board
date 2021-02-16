@@ -5,7 +5,7 @@
 - 使用websocket进行消息推送
 - 需要环境: npm, maven, docker, docker-compose
 
-# evelopment Setup
+# quick start
 
 ```shell
 1. cd pest-message-board-front/ 
@@ -14,7 +14,7 @@
 4. cd ..
 5. cd pest-message-board-backend
 6. mvn clean package
-7. mv pest-message-board-backend-0.0.1-SNAPSHOT.jar ../
+7. mv target/pest-message-board-backend-0.0.1-SNAPSHOT.jar ../
 8. cd ..
 9. docker-compose up
 ```
