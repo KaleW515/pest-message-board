@@ -14,7 +14,8 @@ public class LoginChecker implements BasicChecker {
     CurrUserService currUserService;
 
     @Override
-    public boolean check (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public boolean check (HttpServletRequest httpServletRequest,
+                          HttpServletResponse httpServletResponse) {
         return !currUserService.isAnonymous();
     }
 

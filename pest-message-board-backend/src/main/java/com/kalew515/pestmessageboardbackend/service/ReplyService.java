@@ -70,8 +70,9 @@ public class ReplyService {
         reply.setPublishDate(dateTime.format(formatter));
         reply.setFromUserId(fromUserId);
         reply.setToCommentId(requestReplyParam.getToCommentId());
-        redisTool.hincr("info" + commentDao.getCommentByCommentId(requestReplyParam.getToCommentId())
-                                           .getUserId(), "nreply", 1);
+        redisTool.hincr(
+                "info" + commentDao.getCommentByCommentId(requestReplyParam.getToCommentId())
+                                   .getUserId(), "nreply", 1);
         return replyDao.insertReply(reply) >= 1;
     }
 

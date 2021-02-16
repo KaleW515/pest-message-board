@@ -44,7 +44,8 @@ public class CommentDao {
     }
 
     // 获取单用户留言
-    public CommentParams getCommentByUserId (RequestCommentParam requestCommentParam, Integer pageSize) {
+    public CommentParams getCommentByUserId (RequestCommentParam requestCommentParam,
+                                             Integer pageSize) {
         Page<Comment> commentPage = new Page<>(requestCommentParam.getPage(), pageSize);
         LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Comment::getUserId, requestCommentParam.getUserId());

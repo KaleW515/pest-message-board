@@ -14,7 +14,8 @@ public class AdminChecker implements BasicChecker {
     private CurrUserService currUserService;
 
     @Override
-    public boolean check (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public boolean check (HttpServletRequest httpServletRequest,
+                          HttpServletResponse httpServletResponse) {
         return currUserService.getCurrUser()
                               .getIsSuperuser() == 1;
     }

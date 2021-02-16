@@ -39,7 +39,8 @@ public class AttachmentService {
     public Integer saveFile (MultipartFile file) throws IOException {
         String uuid = UUID.randomUUID()
                           .toString();
-        FileOutputStream fos = new FileOutputStream(String.format("%s/%s", getFileSavePath(), uuid));
+        FileOutputStream fos = new FileOutputStream(
+                String.format("%s/%s", getFileSavePath(), uuid));
         fos.write(file.getBytes());
         fos.close();
         Attachment attachment = new Attachment(uuid, file.getOriginalFilename());

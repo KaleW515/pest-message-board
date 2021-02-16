@@ -25,7 +25,8 @@ public class ReplyController {
 
     @InterceptCheck(checkers = {LoginChecker.class})
     @PostMapping("/reply")
-    public Response<String> addReply (@RequestBody @Valid RequestReplyParam requestReplyParam, BindingResult bindingResult) {
+    public Response<String> addReply (@RequestBody @Valid RequestReplyParam requestReplyParam,
+                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
                                            .getDefaultMessage());
@@ -40,7 +41,8 @@ public class ReplyController {
 
     @InterceptCheck(checkers = {LoginChecker.class})
     @GetMapping("/reply/{id}/{page}")
-    public Response<Map<String, Object>> getReply (@PathVariable Integer id, @PathVariable Integer page) {
+    public Response<Map<String, Object>> getReply (@PathVariable Integer id,
+                                                   @PathVariable Integer page) {
         return Response.success("", replyService.getReply(page, id));
     }
 

@@ -22,7 +22,8 @@ public class PestController {
         try {
             Document document = Jsoup.connect(url)
                                      .ignoreContentType(true)
-                                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36")
+                                     .userAgent(
+                                             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36")
                                      .get();
             JSONObject jsonObject = new JSONObject(document.text());
             JSONObject totalData = jsonObject.getJSONObject("data")

@@ -22,7 +22,8 @@ public class ErrorController extends AbstractErrorController {
     }
 
     @RequestMapping("/error")
-    public Response<String> errorHandler (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public Response<String> errorHandler (HttpServletRequest httpServletRequest,
+                                          HttpServletResponse httpServletResponse) {
         String errorMessage = (String) httpServletRequest.getAttribute("com.kalew515.CheckError");
         if (errorMessage != null) {
             httpServletResponse.setStatus(400);

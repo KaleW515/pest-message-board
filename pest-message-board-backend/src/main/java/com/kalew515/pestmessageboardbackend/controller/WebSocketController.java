@@ -22,9 +22,9 @@ public class WebSocketController {
 
     public WebSocketController webSocketController;
 
-    private static AtomicInteger onlineCount = new AtomicInteger(0);
+    private static final AtomicInteger onlineCount = new AtomicInteger(0);
 
-    private static Map<String, Session> clients = new ConcurrentHashMap<>();
+    private static final Map<String, Session> clients = new ConcurrentHashMap<>();
 
     private String id;
 

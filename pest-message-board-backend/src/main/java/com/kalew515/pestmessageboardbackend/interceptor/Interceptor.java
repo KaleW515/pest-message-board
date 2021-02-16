@@ -25,7 +25,9 @@ public class Interceptor implements HandlerInterceptor {
     private ApplicationContext context;
 
     @Override
-    public boolean preHandle (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws RuntimeException, CheckFailException {
+    public boolean preHandle (HttpServletRequest httpServletRequest,
+                              HttpServletResponse httpServletResponse,
+                              Object handler) throws RuntimeException, CheckFailException {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -46,8 +48,10 @@ public class Interceptor implements HandlerInterceptor {
             for (Class clazz : classes) {
                 BasicChecker checker = (BasicChecker) context.getBean(clazz);
                 if (!checker.check(httpServletRequest, httpServletResponse)) {
-                    httpServletRequest.setAttribute("com.kalew515.CheckError", checker.errorMessage());
-                    throw new CheckFailException("Check failed in " + clazz.getName() + " with " + method.getName());
+                    httpServletRequest.setAttribute("com.kalew515.CheckError",
+                                                    checker.errorMessage());
+                    throw new CheckFailException(
+                            "Check failed in " + clazz.getName() + " with " + method.getName());
                 }
             }
         }
@@ -67,7 +71,8 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion (HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public void afterCompletion (HttpServletRequest request, HttpServletResponse response,
+                                 Object handler, Exception ex) {
         CurrUserService.destroy();
     }
 }

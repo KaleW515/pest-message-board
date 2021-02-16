@@ -45,7 +45,8 @@ public class UserController {
     private String baseUrl;
 
     @PostMapping("/login")
-    public Response<String> login (@Valid @RequestBody LoginParam loginParam, BindingResult bindingResult) {
+    public Response<String> login (@Valid @RequestBody LoginParam loginParam,
+                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
                                            .getDefaultMessage());
@@ -68,7 +69,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Response<String> register (@Valid @RequestBody RegisterParam registerParam, BindingResult bindingResult) {
+    public Response<String> register (@Valid @RequestBody RegisterParam registerParam,
+                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
                                            .getDefaultMessage());
@@ -102,7 +104,8 @@ public class UserController {
 
     @InterceptCheck(checkers = {LoginChecker.class})
     @PostMapping("/revise")
-    public Response<String> revise (@Valid @RequestBody ReviseParam reviseParam, BindingResult bindingResult) {
+    public Response<String> revise (@Valid @RequestBody ReviseParam reviseParam,
+                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
                                            .getDefaultMessage());

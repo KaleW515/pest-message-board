@@ -20,8 +20,10 @@ public class ReplyDao {
         LambdaQueryWrapper<Reply> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Reply::getToCommentId, toCommentId);
         ReplyParams replyParams = new ReplyParams();
-        replyParams.setReplyParams(replyMapper.selectPage(commentPage, wrapper).getRecords());
-        replyParams.setTotal(replyMapper.selectPage(commentPage, wrapper).getTotal());
+        replyParams.setReplyParams(replyMapper.selectPage(commentPage, wrapper)
+                                              .getRecords());
+        replyParams.setTotal(replyMapper.selectPage(commentPage, wrapper)
+                                        .getTotal());
         return replyParams;
     }
 

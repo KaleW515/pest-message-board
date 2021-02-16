@@ -28,13 +28,15 @@ public class CommentController {
 
     @InterceptCheck(checkers = {LoginChecker.class})
     @PostMapping("/comment")
-    public Response<Map<String, Object>> getAllComments (@RequestBody RequestCommentParam requestCommentParam) {
+    public Response<Map<String, Object>> getAllComments (
+            @RequestBody RequestCommentParam requestCommentParam) {
         return Response.success("", commentService.getComments(requestCommentParam));
     }
 
     @InterceptCheck(checkers = {LoginChecker.class})
     @PostMapping("/publish")
-    public Response<String> publishComment (@RequestBody @Valid Map<String, String> content, BindingResult bindingResult) {
+    public Response<String> publishComment (@RequestBody @Valid Map<String, String> content,
+                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return Response.invalid(Objects.requireNonNull(bindingResult.getFieldError())
                                            .getDefaultMessage());
