@@ -1,15 +1,35 @@
 <template>
-  <div class="home-container">
-    <el-container class="home-container-container">
-      <el-aside class="home-container-aside">
-        <span class="home-container-title">疫情信息平台</span>
+  <el-container class="home-container">
+    <el-header class="home-container-header">
+      <span class="home-container-header-title">
+        <i :class="{
+            'el-icon-s-fold': isCollapse,
+            'el-icon-s-unfold': !isCollapse
+          }" @click="isCollapse = !isCollapse">留言板</i>
+      </span>
+      <el-dropdown style="display: flex; align-items: center">
+        <el-avatar size="medium" :src="circleUrl" style="margin-right: 10px"></el-avatar>
+        <div class="info-title">
+          <span>{{ username }}</span>
+          <i class="el-icon-arrow-down"></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>设置</el-dropdown-item>
+            <el-dropdown-item @click.native="onLogout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </div>
+      </el-dropdown>
+    </el-header>
+    <el-container>
+      <el-aside width="auto">
         <el-menu
           router
+          class="home-container-aside"
+          :collapse="isCollapse"
           default-active="1-1"
-          :default-openeds="['1', '2','3']"
-          background-color="#545c64"
+          :default-openeds="['1','2','3']"
           text-color="#fff"
-          active-text-color="#ffd04b">
+          background-color="#3f3f3f"
+          active-text-color="white">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-news"></i>
@@ -41,25 +61,28 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main class="home-container-main">
         <router-view/>
       </el-main>
     </el-container>
-  </div>
+  </el-container>
 </template>
 
 <script>
-import { getUserInfo } from '@/api/user'
-import { getWSUrl } from '@/util/config'
+import { getUserInfo, logout } from '@/api/user'
 import { mapMutations } from 'vuex'
+import { getWSUrl } from '@/util/config'
 
 export default {
-  name: 'HomeIndex',
+  name: 'app',
   components: {},
   props: {},
   data () {
     return {
-      isSuperuser: false,
+      circleUrl: JSON.parse(localStorage.getItem('user')).avatarUuid,
+      username: JSON.parse(localStorage.getItem('user')).username,
+      isSuperuser: JSON.parse(localStorage.getItem('user')).isSuperuser,
+      isCollapse: false,
       lockReconnect: false,
       timeout: 10 * 1000,
       timeoutObj: null,
@@ -115,6 +138,30 @@ export default {
       })
   },
   methods: {
+    onLogout () {
+      this.$confirm('是否退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        logout()
+          .then(res => {
+            if (res.data.msg === 'success') {
+              this.$message.success('退出成功')
+              localStorage.removeItem('user')
+              localStorage.removeItem('Authorization')
+              this.$router.push('/login')
+            } else {
+              this.$message.error('退出失败')
+            }
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退出'
+        })
+      })
+    },
     ...mapMutations(['setNewReply', 'setNewLike', 'setNewDislike']),
     initSocket (userId) {
       this.socket = new WebSocket(getWSUrl(userId))
@@ -197,23 +244,35 @@ export default {
   top: 0;
   bottom: 0;
 
-  .home-container-container {
-    height: 100%;
+  .home-container-header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(43, 43, 43, 0.9);
+    color: white;
+    border-bottom: 1px solid black;
+    justify-content: space-between;
+  }
 
-    .home-container-aside {
-      width: 250px;
-      height: 100%;
-      background-color: #545c64;
-    }
+  .home-container-header-title {
+    font-size: 20px;
+  }
+
+  .home-container-aside:not(.el-menu--collapse) {
+    width: 250px;
+    height: 100%;
+    background-color: #3f3f3f;
+  }
+
+  .home-container-aside {
+    width: 70px;
+    height: 100%;
+    background-color: #3f3f3f;
   }
 }
 
-.home-container-title {
+.info-title {
   color: white;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  padding-bottom: 70px;
+  display: inline-block;
 }
+
 </style>

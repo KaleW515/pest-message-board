@@ -6,7 +6,7 @@
         <el-link class="user-out" @click="logout">退出</el-link>
       </div>
     </el-header>
-    <el-main>
+    <el-main class="user-main">
       <div class="user-body">
         <el-tooltip content="点击此处上传头像,为不影响视觉效果,请尽量上传宽高比一致的图像" placement="bottom" effect="light">
           <el-upload
@@ -99,7 +99,9 @@ import { mapMutations } from 'vuex'
 
 export default {
   name: 'UserIndex',
-  components: { Revise },
+  components: {
+    Revise
+  },
   props: {},
   data () {
     return {
@@ -221,6 +223,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+.user-container {
+  position: relative;
+}
+
+.user-main {
+  position: absolute;
+  right: 0;
+  left: 0;
+}
+
 .user-header {
   border-radius: 5px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -245,6 +257,7 @@ export default {
   border-radius: 10px;
   line-height: 15px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
 
   .user-body-avatar {
     position: relative;

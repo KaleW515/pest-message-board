@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getCaptcha, login } from '@/api/user'
+import { getCaptcha, login, getUserInfo } from '@/api/user'
 import { getHash } from '@/util/tool'
 
 export default {
@@ -79,13 +79,20 @@ export default {
     this.onCaptcha()
   },
   methods: {
+    async onGetUserInfo () {
+      await getUserInfo()
+        .then(res => {
+          localStorage.setItem('user', JSON.stringify(res.data.payload))
+        })
+    },
+
     async onSubmit (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           this.openFullScreen()
           this.loginForm.password = getHash(this.loginForm.password)
-          login(this.loginForm)
-            .then((response) => {
+          await login(this.loginForm)
+            .then(async response => {
               if (response.data.msg !== '登录成功') {
                 this.$message.error(response.data.msg)
                 this.fullscreenLoading = false
@@ -93,12 +100,13 @@ export default {
                 this.resetForm(formName)
               } else {
                 localStorage.setItem('Authorization', response.data.payload)
+                await this.onGetUserInfo()
                 this.fullscreenLoading = false
                 this.$message({
                   message: '恭喜你，登录成功',
                   type: 'success'
                 })
-                this.$router.push('/home')
+                await this.$router.push('/home/message-board')
               }
             })
             .catch((error) => {

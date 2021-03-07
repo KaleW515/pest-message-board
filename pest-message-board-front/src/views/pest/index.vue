@@ -1,84 +1,86 @@
 <template>
   <div class="pest-container">
-    <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="item in pics" :key="item">
-        <el-image :src=item>
-          <div slot="placeholder" class="image-slot">
-            加载中<span class="dot">...</span>
+    <div>
+      <el-carousel :interval="4000" type="card" height="200px">
+        <el-carousel-item v-for="item in pics" :key="item">
+          <el-image :src=item>
+            <div slot="placeholder" class="image-slot">
+              加载中<span class="dot">...</span>
+            </div>
+          </el-image>
+        </el-carousel-item>
+      </el-carousel>
+      <el-card class="pest-card-1">
+        <div slot="header">
+          <span class="pest-card-1-title">全国疫情数据</span>
+        </div>
+        <div class="pest-card-1-body">
+          <div>
+            <span>确诊:</span>
+            <el-tooltip :content="contrastYesData.confirmData" placement="bottom"
+                        effect="light">
+              <span v-text="chinaPestData.confirmData"></span>
+            </el-tooltip>
           </div>
-        </el-image>
-      </el-carousel-item>
-    </el-carousel>
-    <el-card class="pest-card-1">
-      <div slot="header">
-        <span class="pest-card-1-title">全国疫情数据</span>
-      </div>
-      <div class="pest-card-1-body">
-        <div>
-          <span>确诊:</span>
-          <el-tooltip :content="contrastYesData.confirmData" placement="bottom"
-                      effect="light">
-            <span v-text="chinaPestData.confirmData"></span>
-          </el-tooltip>
+          <div>
+            <span>疑似:</span>
+            <el-tooltip :content="contrastYesData.suspectData" placement="bottom"
+                        effect="light">
+              <span v-text="chinaPestData.suspectData"></span>
+            </el-tooltip>
+          </div>
+          <div>
+            <span>死亡:</span>
+            <el-tooltip :content="contrastYesData.deadData" placement="bottom" effect="light">
+              <span v-text="chinaPestData.deadData"></span>
+            </el-tooltip>
+          </div>
+          <div>
+            <span>治愈:</span>
+            <el-tooltip :content="contrastYesData.healData" placement="bottom" effect="light">
+              <span v-text="chinaPestData.healData"></span>
+            </el-tooltip>
+          </div>
         </div>
-        <div>
-          <span>疑似:</span>
-          <el-tooltip :content="contrastYesData.suspectData" placement="bottom"
-                      effect="light">
-            <span v-text="chinaPestData.suspectData"></span>
-          </el-tooltip>
+      </el-card>
+      <el-card class="pest-card-2">
+        <div slot="header">
+          <div class="pest-card-2-title">
+            <span v-text="curCity"></span>
+            <span>疫情数据</span>
+          </div>
+          <div class="pest-card-2-select">
+            <el-select v-model="value" placeholder="请选择" @change="changeCity">
+              <el-option
+                v-for="item in cities"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                <span style="float: left">{{ item.label }}</span>
+              </el-option>
+            </el-select>
+          </div>
         </div>
-        <div>
-          <span>死亡:</span>
-          <el-tooltip :content="contrastYesData.deadData" placement="bottom" effect="light">
-            <span v-text="chinaPestData.deadData"></span>
-          </el-tooltip>
+        <div class="pest-card-2-body">
+          <div>
+            <span>新增确诊:</span>
+            <span v-text="areaPestData.areaNewConfirmData"></span>
+          </div>
+          <div>
+            <span>确诊:</span>
+            <span v-text="areaPestData.areaConfirm"></span>
+          </div>
+          <div>
+            <span>死亡:</span>
+            <span v-text="areaPestData.areaDeadData"></span>
+          </div>
+          <div>
+            <span>治愈:</span>
+            <span v-text="areaPestData.areaHealData"></span>
+          </div>
         </div>
-        <div>
-          <span>治愈:</span>
-          <el-tooltip :content="contrastYesData.healData" placement="bottom" effect="light">
-            <span v-text="chinaPestData.healData"></span>
-          </el-tooltip>
-        </div>
-      </div>
-    </el-card>
-    <el-card class="pest-card-2">
-      <div slot="header">
-        <div class="pest-card-2-title">
-          <span v-text="curCity"></span>
-          <span>疫情数据</span>
-        </div>
-        <div class="pest-card-2-select">
-          <el-select v-model="value" placeholder="请选择" @change="changeCity">
-            <el-option
-              v-for="item in cities"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              <span style="float: left">{{ item.label }}</span>
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="pest-card-2-body">
-        <div>
-          <span>新增确诊:</span>
-          <span v-text="areaPestData.areaNewConfirmData"></span>
-        </div>
-        <div>
-          <span>确诊:</span>
-          <span v-text="areaPestData.areaConfirm"></span>
-        </div>
-        <div>
-          <span>死亡:</span>
-          <span v-text="areaPestData.areaDeadData"></span>
-        </div>
-        <div>
-          <span>治愈:</span>
-          <span v-text="areaPestData.areaHealData"></span>
-        </div>
-      </div>
-    </el-card>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -291,6 +293,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .pest-card-1 {
   margin-top: 30px;
 

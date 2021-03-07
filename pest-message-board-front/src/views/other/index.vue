@@ -1,9 +1,7 @@
 <template>
   <div class="other-container">
     <el-header class="other-header">
-      <div class="other-header-title">
-        <span>个人信息</span>
-      </div>
+      <span>个人信息</span>
     </el-header>
     <el-main class="other-body">
       <img v-if="userInfo.avatarUuid" :src="userInfo.avatarUuid" alt="" class="other-body-avatar">
@@ -58,14 +56,10 @@ export default {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   padding-top: 50px;
   padding-bottom: 50px;
-
-  .other-header-title {
-    font-size: 40px;
-    position: relative;
-    text-align: center;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .other-body {

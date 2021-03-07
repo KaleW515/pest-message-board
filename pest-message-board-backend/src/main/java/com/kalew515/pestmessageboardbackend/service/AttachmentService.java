@@ -40,7 +40,7 @@ public class AttachmentService {
         String uuid = UUID.randomUUID()
                           .toString();
         FileOutputStream fos = new FileOutputStream(
-                String.format("%s/%s", getFileSavePath(), uuid));
+                String.format("%s/%s", getFileSavePath(), uuid + ".jpg"));
         fos.write(file.getBytes());
         fos.close();
         Attachment attachment = new Attachment(uuid, file.getOriginalFilename());
@@ -57,6 +57,6 @@ public class AttachmentService {
     }
 
     public File getFileByUUID (String uuid) {
-        return new File(String.format("%s/%s", getFileSavePath(), uuid));
+        return new File(String.format("%s/%s", getFileSavePath(), uuid + ".jpg"));
     }
 }

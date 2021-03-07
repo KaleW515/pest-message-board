@@ -166,8 +166,10 @@ public class UserController {
         return Response.success("", result);
     }
 
-    @GetMapping("/test")
-    public String test () {
-        return "success";
+    @InterceptCheck(checkers = {LoginChecker.class})
+    @PostMapping("/logout")
+    public Response<String> logout () {
+        CurrUserService.destroy();
+        return Response.success("success");
     }
 }

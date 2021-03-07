@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: messageboard
       TZ: Asia/Shanghai
     volumes:
-      - ./pest-message-board-backend/messageboard.sql:/docker-entrypoint-initdb.d/messageboard.sql
+      - ./messageboard.sql:/docker-entrypoint-initdb.d/messageboard.sql
   
   redis:
     image: 'redis:alpine'
@@ -26,5 +26,5 @@ services:
   java:
     image: openjdk:11
     volumes:
-      - ./pest-message-board-backend-0.0.1-SNAPSHOT.jar:/app.jar
-    command: [bash, '-c', "mkdir -p /upload/ && sleep 5 && java -jar /app.jar"]
+      - ./pest-message-board-backend/target/pest-message-board-backend-0.0.1-SNAPSHOT.jar:/app.jar
+    command: [bash, '-c', "mkdir -p /src/main/resources/avatar && sleep 5 && java -jar /app.jar"]

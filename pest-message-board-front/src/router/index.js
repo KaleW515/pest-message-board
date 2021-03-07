@@ -31,7 +31,7 @@ const routes = [
       {
         path: '/home/message-board',
         name: 'MessageBoard',
-        component: () => import('@/views/message/board/index')
+        component: () => import('@/views/message')
       },
       {
         path: '/home/user',

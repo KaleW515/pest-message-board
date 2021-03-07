@@ -53,3 +53,10 @@ export const getInfoByName = username => {
     method: 'GET'
   })
 }
+
+export const logout = () => {
+  return request({
+    url: '/user/logout',
+    method: 'POST'
+  })
+}
