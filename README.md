@@ -14,9 +14,8 @@
 4. cd ..
 5. cd pest-message-board-backend
 6. mvn clean package
-7. mv target/pest-message-board-backend-0.0.1-SNAPSHOT.jar ../
-8. cd ..
-9. docker-compose up
+7. cd ..
+8. docker-compose up
 ```
 
 # front
